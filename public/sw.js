@@ -1,0 +1,5 @@
+// Cache only our app shell; never cache Google responses or tokens.
+const CACHE='drivegate-shell-v1';
+self.addEventListener('install',e=>e.waitUntil((async()=>{const r=await fetch('/');const html=await r.text();const assets=[...html.matchAll(/(?:src|href)="([^" ]+\.(?:js|css))"/g)].map(m=>m[1]);const c=await caches.open(CACHE);await c.put('/',new Response(html,{headers:{'Content-Type':'text/html'}}));await c.addAll([...assets,'/icon.svg','/manifest.webmanifest']);await self.skipWaiting();})()));
+self.addEventListener('activate',e=>e.waitUntil((async()=>{for(const k of await caches.keys())if(k!==CACHE)await caches.delete(k);await self.clients.claim();})()));
+self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.method!=='GET'||u.origin!==location.origin||u.pathname==='/health.txt')return;e.respondWith((async()=>{if(e.request.mode==='navigate'){try{return await fetch(e.request)}catch{return await caches.match('/')}}return await caches.match(e.request)||fetch(e.request);})());});
