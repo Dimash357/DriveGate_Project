@@ -109,5 +109,5 @@ OAuth и реальный Google Drive нельзя проверить без в
 
 ## Авторы
 
-- [Dimash](https://github.com/Dimash357)
-- [Parviz](https://github.com/SatoSinhem)
+- [Dimash] (https://github.com/Dimash357)
+- [Parviz] (https://github.com/SatoSinhem)
